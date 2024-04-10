@@ -1,40 +1,29 @@
-
-import Head from './components/Head';
-import './App.css';
-import Body from './components/Body';
-import store from './utils/store';
-import { Provider } from 'react-redux';
-import Maincontainer from './components/Maincontainer';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Watchpage from './components/Watchpage';
-
-const appRouter=createBrowserRouter([{
-  path:'/',
-  element:<Body/>,
-  children:[
-    {
-  path:'/',
-  element:<Maincontainer/>,
-    },
-
-    {
-      path:'watch',
-      element:<Watchpage/>,
-    },
-  ],
-
-},
-])
+import Head from "./components/Head";
+import "./App.css";
+import Body from "./components/Body";
+import store from "./utils/store";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import Maincontainer from "./components/Maincontainer";
+import Watchpage from "./components/Watchpage";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <Provider store={store} >
-    <div className="App">
-<Head/>
-{/* <Body/>
- */}
-<RouterProvider router={appRouter} />
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="App">
+        <Head/>
+      
+      
+          <Routes>
+           
+            <Route path="/" element={<Body />} />
+            <Route path="watch" element={<Watchpage />} />
+          
+          </Routes>
+        </div>
+      </BrowserRouter>
     </Provider>
   );
 }
