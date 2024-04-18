@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { toggleMenu } from '../utils/appslice';
 import { YOUTUBE_SEARCH_API } from '../utils/constants';
+import { cacheResult } from '../utils/searchSlice';
 
 const Head = () => {
   
       const [Searchquery ,setSearchquery]=useState("");
       const [suggestion,setsuggetsion]=useState([]);
+      const [showsuggestion , setshowsuggestion]=useState(false);
+      const searchCache=useSelector((store)=>store.search); 
+const dispatch = useDispatch(); 
       // console.log(Searchquery);
       useEffect(()=>{
             //  console.log(Searchquery);
             const timer =setTimeout(() => 
-              getSearchSuggestion(), 200);   
+            {
+              if(searchCache[Searchquery]){
+                setsuggetsion(searchCache[Searchquery]);
+              }
+              else{
+                getSearchSuggestion()
+              }
+              }, 200);   
         // it is used to genrate api call after every 200ms --Debouncing 
               return ()=>{
                 clearTimeout(timer);
@@ -29,11 +40,14 @@ const getSearchSuggestion=async()=>{
     const json= await  data.json();
     console.log(json[1]);
     setsuggetsion(json[1])
+    // udpate search cache
+    dispatch(cacheResult({[Searchquery]:json[1]}));
 
 
 }
 
-  const dispatch = useDispatch(); 
+
+// const dispatch = useDispatch(); 
   const toogleMenuHandler = () => { 
     dispatch(toggleMenu()); 
   };  
@@ -62,26 +76,25 @@ const getSearchSuggestion=async()=>{
      <div className=' my-8 text-center ml-20 col-span-8 px-4' >
 
    <input  className=' hover:bg-gray-200 border-gray-400 w-[400px] text-center  border-2 rounded-l-full border-spacing-x-3  ' type="text"    value={Searchquery}
-   onChange={(e)=>setSearchquery(e.target.value)} />
+   onChange={(e)=>setSearchquery(e.target.value)}
+   onFocus={()=>setshowsuggestion(true)}
+  onBlur={()=>setshowsuggestion(false)}
+    />
 
 <button className='border-gray-400 rounded-r-full border-2 w-20  hover:bg-gray-200 ' > 🔍  </button>
-     
+     { showsuggestion && ( 
      <div className='relative' >
       <div className=' fixed bg-white py-2 px-5 w-[30rem] '    >
       <ul className='flex-col left-0 ' >
         { 
           suggestion.map((s)=>( <li  key={s} className=' hover:bg-gray-100' >🔍{s}</li>))
         }
-       
-       
-       
-        
       </ul>
       </div>
      </div>
-    
+     )}
      </div>
-
+   
      {/* user icon */}
      <div className='px-32 mt-3  col-span-1  ' >
        
