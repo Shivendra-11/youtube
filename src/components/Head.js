@@ -100,8 +100,7 @@ const getSearchSuggestion=async()=>{
        
 <div className='flex flex-row ' >
        
-<img  className='h-12  '  src="
-https://p7.hiclipart.com/preview/340/956/944/computer-icons-user-profile-head-ico-download.jpg" alt="User" />
+<img  className='h-12  '  src="https://p7.hiclipart.com/preview/340/956/944/computer-icons-user-profile-head-ico-download.jpg" alt="User" />
 
 <img  className='h-12 mx-8 ' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFbdJUELtkbwAqtOpbucjXxvdZnA78qaPPxxCykEQgnrlLs_bt-m_JbXAzaVSeCR_Zhj4&usqp=CAU" alt="" />
  </div>
